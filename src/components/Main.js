@@ -54,11 +54,11 @@ class ImgFigure extends React.Component {
 
 		// 如果圖片的旋轉角度有值且不為0ㄝ, 添加旋轉角度
 		if(this.props.arrange.rotate) {
-			['Moz', 'Ms', 'Webkit', ''].forEach((value) => {
+			['Moz', 'ms', 'Webkit', ''].forEach((value) => {
 				styleObj[value + 'transform'] = 'rotate(' + this.props.arrange.rotate + 'deg)';
-			})			
+			})
 		}
-		
+
 		if(this.props.arrange.isCenter) {
 			styleObj.zIndex = '11';
 		}
@@ -83,6 +83,40 @@ class ImgFigure extends React.Component {
 		);
 	}
 
+}
+
+class ControllerUnit extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+	}
+
+	handleClick(e) {
+		//如果點擊的是當前正在選中態的按鈕，則翻轉圖片，否則將對應的圖片居中
+		if(this.props.arrange.isCenter) {
+			this.props.inverse();
+		}else{
+			this.props.center();
+		}
+		e.stopPropagation();
+		e.preventDefault();
+	}
+
+	render () {
+		let controllerUnitClassName = 'controller-unit';
+		//如果對應的是居中的圖片，顯示控制按鈕的居中狀態
+		if(this.props.arrange.isCenter) {
+			controllerUnitClassName += ' is-center';
+			//如果翻轉則顯示翻轉狀態
+			if(this.props.arrange.isInverse) {
+				controllerUnitClassName += ' is-inverse';
+			}
+		}
+		return (
+			<span className={controllerUnitClassName} onClick={this.handleClick}>				
+			</span>
+		);
+	}
 }
 
 class AppComponent extends React.Component {
@@ -268,6 +302,9 @@ class AppComponent extends React.Component {
 
   		imgFigures.push(<ImgFigure data={value} key={index} ref={'imgFigure'+index}
   						arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
+
+  		controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]} 
+  											 inverse={this.inverse(index)} center={this.center(index)}/>);
   	})
 
     return (
