@@ -52,7 +52,7 @@ class ImgFigure extends React.Component {
 			styleObj = this.props.arrange.pos;
 		}
 
-		// 如果圖片的旋轉角度有值且不為0ㄝ, 添加旋轉角度
+		// 如果圖片的旋轉角度有值且不為0, 添加旋轉角度
 		if(this.props.arrange.rotate) {
 			['Moz', 'ms', 'Webkit', ''].forEach((value) => {
 				styleObj[value + 'transform'] = 'rotate(' + this.props.arrange.rotate + 'deg)';
